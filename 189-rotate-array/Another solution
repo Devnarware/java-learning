@@ -1,0 +1,22 @@
+class Solution {
+    public void rotate(int[] nums, int i) {
+        int n = nums.length ;
+        if(n<=i){
+            i = i%n ;
+        }
+        int j = 0 , m = n-i ;
+        int[] arr = new int[n] ;
+        while(m<n){
+            arr[j] = nums[m] ;
+            m++ ;
+            j++ ;
+        }
+        m = n-i ;
+        for(int k = 0 ; k<m ; k++){
+            arr[j] = nums[k] ;
+            j++ ;
+        }
+        System.arraycopy(arr, 0, nums, 0, n);
+
+
+    }
