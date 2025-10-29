@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Pattern Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* A dark grey-blue */
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        /* Custom styling for the details/summary arrow */
+        details summary .arrow {
+            transition: transform 0.2s;
+        }
+        details[open] summary .arrow {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="text-gray-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-100">📘 DSA Pattern Practice Tracker</h1>
+            <p class="text-gray-400 mt-2">Focused practice on Arrays, Bit Manipulation & Recursion. Your progress is saved automatically.</p>
+        </header>
+
+        <main id="topics-container" class="space-y-10">
+            <!-- Topics will be dynamically inserted here by JavaScript -->
+        </main>
+
+        <footer class="text-center mt-12">
+            <button id="reset-button" class="bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                Reset All Progress
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        // --- Data for all the topics, patterns and problems ---
+        const topics = [
+            {
+                title: "Part 1: Arrays",
+                sections: [
+                    {
+                        name: "A. Basics",
+                        description: "Fundamental operations and traversals.",
+                        problems: [
+                            { name: "Find Max/Min element", link: "https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/", platform: "GFG", difficulty: "Easy" },
+                            { name: "Reverse the array", link: "https://leetcode.com/problems/reverse-string/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Contains Duplicate", link: "https://leetcode.com/problems/contains-duplicate/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Move Zeroes", link: "https://leetcode.com/problems/move-zeroes/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Majority Element", link: "https://leetcode.com/problems/majority-element/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Find Pivot Index", link: "https://leetcode.com/problems/find-pivot-index/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Rotate Array", link: "https://leetcode.com/problems/rotate-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Leaders in an array", link: "https://www.geeksforgeeks.org/leaders-in-an-array/", platform: "GFG", difficulty: "Medium" },
+                            { name: "Next Permutation", link: "https://leetcode.com/problems/next-permutation/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Set Matrix Zeroes", link: "https://leetcode.com/problems/set-matrix-zeroes/", platform: "LeetCode", difficulty: "Medium" }
+                        ]
+                    },
+                    {
+                        name: "B. Two Pointer Pattern",
+                        description: "Using two pointers to iterate and solve problems efficiently.",
+                        problems: [
+                            { name: "Merge Sorted Array", link: "https://leetcode.com/problems/merge-sorted-array/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Remove Duplicates from Sorted Array", link: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Squares of a Sorted Array", link: "https://leetcode.com/problems/squares-of-a-sorted-array/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Two Sum II - Input Array Is Sorted", link: "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "3Sum", link: "https://leetcode.com/problems/3sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Sort Colors", link: "https://leetcode.com/problems/sort-colors/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Container With Most Water", link: "https://leetcode.com/problems/container-with-most-water/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "3Sum Closest", link: "https://leetcode.com/problems/3sum-closest/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "4Sum", link: "https://leetcode.com/problems/4sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Trapping Rain Water", link: "https://leetcode.com/problems/trapping-rain-water/", platform: "LeetCode", difficulty: "Hard" },
+                        ]
+                    },
+                    {
+                        name: "C. Sliding Window Pattern",
+                        description: "A window that slides over the data to solve problems on contiguous parts.",
+                        problems: [
+                            { name: "Best Time to Buy and Sell Stock", link: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Contains Duplicate II", link: "https://leetcode.com/problems/contains-duplicate-ii/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Longest Substring Without Repeating Characters", link: "https://leetcode.com/problems/longest-substring-without-repeating-characters/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Minimum Size Subarray Sum", link: "https://leetcode.com/problems/minimum-size-subarray-sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Permutation in String", link: "https://leetcode.com/problems/permutation-in-string/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Longest Repeating Character Replacement", link: "https://leetcode.com/problems/longest-repeating-character-replacement/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Fruit Into Baskets", link: "https://leetcode.com/problems/fruit-into-baskets/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Minimum Window Substring", link: "https://leetcode.com/problems/minimum-window-substring/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Sliding Window Maximum", link: "https://leetcode.com/problems/sliding-window-maximum/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Substring with Concatenation of All Words", link: "https://leetcode.com/problems/substring-with-concatenation-of-all-words/", platform: "LeetCode", difficulty: "Hard" }
+                        ]
+                    },
+                    {
+                        name: "D. Prefix Sum + Hashing",
+                        description: "Combining cumulative sums with hash maps to solve subarray problems.",
+                        problems: [
+                            { name: "Two Sum", link: "https://leetcode.com/problems/two-sum/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Range Sum Query - Immutable", link: "https://leetcode.com/problems/range-sum-query-immutable/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Find the Highest Altitude", link: "https://leetcode.com/problems/find-the-highest-altitude/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Subarray Sum Equals K", link: "https://leetcode.com/problems/subarray-sum-equals-k/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Continuous Subarray Sum", link: "https://leetcode.com/problems/continuous-subarray-sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Product of Array Except Self", link: "https://leetcode.com/problems/product-of-array-except-self/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Maximum Size Subarray Sum Equals k", link: "https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Contiguous Array", link: "https://leetcode.com/problems/contiguous-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Subarray Sums Divisible by K", link: "https://leetcode.com/problems/subarray-sums-divisible-by-k/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Path Sum III", link: "https://leetcode.com/problems/path-sum-iii/", platform: "LeetCode", difficulty: "Medium" }
+                        ]
+                    },
+                     {
+                        name: "E. Sorting + Two Pointer / Binary Search",
+                        description: "Leveraging a sorted array structure for efficient searching and pairing.",
+                        problems: [
+                            { name: "Binary Search", link: "https://leetcode.com/problems/binary-search/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "K-diff Pairs in an Array", link: "https://leetcode.com/problems/k-diff-pairs-in-an-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Successful Pairs of Spells and Potions", link: "https://leetcode.com/problems/successful-pairs-of-spells-and-potions/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Find First and Last Position of Element in Sorted Array", link: "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Search in Rotated Sorted Array", link: "https://leetcode.com/problems/search-in-rotated-sorted-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Find Minimum in Rotated Sorted Array", link: "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Find Peak Element", link: "https://leetcode.com/problems/find-peak-element/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Search a 2D Matrix", link: "https://leetcode.com/problems/search-a-2d-matrix/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "4Sum", link: "https://leetcode.com/problems/4sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Median of Two Sorted Arrays", link: "https://leetcode.com/problems/median-of-two-sorted-arrays/", platform: "LeetCode", difficulty: "Hard" }
+                        ]
+                    },
+                    {
+                        name: "F. Advanced Array Patterns",
+                        description: "Specialized algorithms for complex array problems.",
+                        problems: [
+                           { name: "Next Greater Element I", link: "https://leetcode.com/problems/next-greater-element-i/", platform: "LeetCode", difficulty: "Easy" },
+                           { name: "Maximum Subarray (Kadane's)", link: "https://leetcode.com/problems/maximum-subarray/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Maximum Product Subarray", link: "https://leetcode.com/problems/maximum-product-subarray/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Daily Temperatures (Monotonic Stack)", link: "https://leetcode.com/problems/daily-temperatures/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Gas Station (Circular Array)", link: "https://leetcode.com/problems/gas-station/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Spiral Matrix", link: "https://leetcode.com/problems/spiral-matrix/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Jump Game", link: "https://leetcode.com/problems/jump-game/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Find the Celebrity", link: "https://leetcode.com/problems/find-the-celebrity/", platform: "LeetCode", difficulty: "Medium" },
+                           { name: "Largest Rectangle in Histogram", link: "https://leetcode.com/problems/largest-rectangle-in-histogram/", platform: "LeetCode", difficulty: "Hard" },
+                           { name: "First Missing Positive", link: "https://leetcode.com/problems/first-missing-positive/", platform: "LeetCode", difficulty: "Hard" }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Part 2: Bit Manipulation",
+                sections: [
+                    {
+                        name: "A. Basics",
+                        description: "Core bitwise operations and their applications.",
+                        problems: [
+                            { name: "Check if K-th bit is set", link: "https://www.geeksforgeeks.org/check-whether-k-th-bit-is-set-or-not/", platform: "GFG", difficulty: "Easy" },
+                            { name: "Power of Two", link: "https://leetcode.com/problems/power-of-two/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Number of 1 Bits", link: "https://leetcode.com/problems/number-of-1-bits/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Counting Bits", link: "https://leetcode.com/problems/counting-bits/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Reverse Bits", link: "https://leetcode.com/problems/reverse-bits/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Power of Four", link: "https://leetcode.com/problems/power-of-four/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Complement of Base 10 Integer", link: "https://leetcode.com/problems/complement-of-base-10-integer/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Binary Gap", link: "https://leetcode.com/problems/binary-gap/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Convert a Number to Hexadecimal", link: "https://leetcode.com/problems/convert-a-number-to-hexadecimal/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Binary to String", link: "https://www.geeksforgeeks.org/program-to-convert-binary-to-string/", platform: "GFG", difficulty: "Easy" },
+                        ]
+                    },
+                    {
+                        name: "B. Intermediate Patterns",
+                        description: "Common and powerful tricks using bitwise operators.",
+                        problems: [
+                            { name: "Single Number", link: "https://leetcode.com/problems/single-number/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Missing Number (XOR)", link: "https://leetcode.com/problems/missing-number/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Find the Difference (XOR)", link: "https://leetcode.com/problems/find-the-difference/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Hamming Distance", link: "https://leetcode.com/problems/hamming-distance/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Majority Element", link: "https://leetcode.com/problems/majority-element/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Subsets (Bitmasking)", link: "https://leetcode.com/problems/subsets/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Gray Code", link: "https://leetcode.com/problems/gray-code/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Sum of Two Integers (without + or -)", link: "https://leetcode.com/problems/sum-of-two-integers/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Divide Two Integers", link: "https://leetcode.com/problems/divide-two-integers/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Total Hamming Distance", link: "https://leetcode.com/problems/total-hamming-distance/", platform: "LeetCode", difficulty: "Medium" }
+                        ]
+                    },
+                    {
+                        name: "C. Advanced Patterns",
+                        description: "Solving complex problems by manipulating bits.",
+                        problems: [
+                            { name: "Single Number II", link: "https://leetcode.com/problems/single-number-ii/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Single Number III", link: "https://leetcode.com/problems/single-number-iii/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Bitwise AND of Numbers Range", link: "https://leetcode.com/problems/bitwise-and-of-numbers-range/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Maximum Product of Word Lengths", link: "https://leetcode.com/problems/maximum-product-of-word-lengths/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "UTF-8 Validation", link: "https://leetcode.com/problems/utf-8-validation/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Minimum Flips to Make a OR b Equal to c", link: "https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Maximum XOR of Two Numbers in an Array", link: "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Number of Wonderful Substrings", link: "https://leetcode.com/problems/number-of-wonderful-substrings/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Smallest Sufficient Team (Bitmask DP)", link: "https://leetcode.com/problems/smallest-sufficient-team/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Minimum Number of K Consecutive Bit Flips", link: "https://leetcode.com/problems/minimum-number-of-k-consecutive-bit-flips/", platform: "LeetCode", difficulty: "Hard" },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Part 3: Recursion",
+                sections: [
+                    {
+                        name: "A. Basics of Recursion",
+                        description: "Understanding base cases and the recursive leap of faith.",
+                        problems: [
+                            { name: "Reverse String", link: "https://leetcode.com/problems/reverse-string/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Fibonacci Number", link: "https://leetcode.com/problems/fibonacci-number/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Power of Three", link: "https://leetcode.com/problems/power-of-three/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Search in a Binary Search Tree", link: "https://leetcode.com/problems/search-in-a-binary-search-tree/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Pascal's Triangle II", link: "https://leetcode.com/problems/pascals-triangle-ii/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Sum of Digits of a Number", link: "https://www.geeksforgeeks.org/sum-of-digit-of-a-number-using-recursion/", platform: "GFG", difficulty: "Easy" },
+                            { name: "Pow(x, n)", link: "https://leetcode.com/problems/powx-n/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "K-th Symbol in Grammar", link: "https://leetcode.com/problems/k-th-symbol-in-grammar/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Reverse a Stack using Recursion", link: "https://www.geeksforgeeks.org/reverse-a-stack-using-recursion/", platform: "GFG", difficulty: "Medium" },
+                            { name: "Josephus problem", link: "https://www.geeksforgeeks.org/josephus-problem/", platform: "GFG", difficulty: "Medium" }
+                        ]
+                    },
+                    {
+                        name: "B. Backtracking",
+                        description: "Exploring all possibilities by making choices and undoing them.",
+                        problems: [
+                            { name: "Letter Combinations of a Phone Number", link: "https://leetcode.com/problems/letter-combinations-of-a-phone-number/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Generate Parentheses", link: "https://leetcode.com/problems/generate-parentheses/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Subsets", link: "https://leetcode.com/problems/subsets/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Combinations", link: "https://leetcode.com/problems/combinations/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Permutations", link: "https://leetcode.com/problems/permutations/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Combination Sum", link: "https://leetcode.com/problems/combination-sum/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Word Search", link: "https://leetcode.com/problems/word-search/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Palindrome Partitioning", link: "https://leetcode.com/problems/palindrome-partitioning/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "N-Queens", link: "https://leetcode.com/problems/n-queens/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Sudoku Solver", link: "https://leetcode.com/problems/sudoku-solver/", platform: "LeetCode", difficulty: "Hard" }
+                        ]
+                    },
+                    {
+                        name: "C. Divide and Conquer",
+                        description: "Breaking problems into subproblems, solving them, and combining results.",
+                        problems: [
+                            { name: "Convert Sorted Array to Binary Search Tree", link: "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/", platform: "LeetCode", difficulty: "Easy" },
+                            { name: "Validate Binary Search Tree", link: "https://leetcode.com/problems/validate-binary-search-tree/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Sort an Array (Merge Sort)", link: "https://leetcode.com/problems/sort-an-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Kth Largest Element in an Array (QuickSelect)", link: "https://leetcode.com/problems/kth-largest-element-in-an-array/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Maximum Subarray", link: "https://leetcode.com/problems/maximum-subarray/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Search a 2D Matrix II", link: "https://leetcode.com/problems/search-a-2d-matrix-ii/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Construct Quad Tree", link: "https://leetcode.com/problems/construct-quad-tree/", platform: "LeetCode", difficulty: "Medium" },
+                            { name: "Merge k Sorted Lists", link: "https://leetcode.com/problems/merge-k-sorted-lists/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Count of Range Sum", link: "https://leetcode.com/problems/count-of-range-sum/", platform: "LeetCode", difficulty: "Hard" },
+                            { name: "Reverse Pairs", link: "https://leetcode.com/problems/reverse-pairs/", platform: "LeetCode", difficulty: "Hard" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // --- Core Application Logic ---
+        const topicsContainer = document.getElementById('topics-container');
+        const resetButton = document.getElementById('reset-button');
+        const STORAGE_KEY = 'dsaPatternTrackerState_v4'; // new key for new structure
+
+        let state = {};
+
+        // Function to get a unique ID for a problem
+        function getProblemId(topicIndex, sectionIndex, problemIndex) {
+            return `t${topicIndex}-s${sectionIndex}-i${problemIndex}`;
+        }
+        
+        // Function to get difficulty badge color
+        function getDifficultyClass(difficulty) {
+            switch(difficulty.toLowerCase()) {
+                case 'easy': return 'bg-emerald-500/20 text-emerald-400';
+                case 'medium': return 'bg-yellow-500/20 text-yellow-400';
+                case 'hard': return 'bg-red-500/20 text-red-400';
+                default: return 'bg-slate-500/20 text-slate-400';
+            }
+        }
+
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem(STORAGE_KEY);
+            state = savedState ? JSON.parse(savedState) : { completed: {}, notes: {} };
+        }
+
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        // Render all content onto the page
+        function renderContent() {
+            topicsContainer.innerHTML = ''; // Clear existing content
+            topics.forEach((topic, topicIndex) => {
+                const partElement = document.createElement('details');
+                partElement.setAttribute('open', ''); // Open by default
+                
+                // The summary holds the main title and the arrow
+                const summaryHtml = `
+                    <summary class="flex justify-between items-center p-6 cursor-pointer bg-gray-900 hover:bg-gray-800/70 rounded-t-lg list-none">
+                        <h2 class="text-3xl font-bold text-gray-100">${topic.title}</h2>
+                        <span class="text-gray-400 arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </span>
+                    </summary>
+                `;
+
+                const sectionsContainer = document.createElement('div');
+                sectionsContainer.className = 'space-y-6 bg-gray-900/60 p-4 md:p-6 rounded-b-lg';
+
+                topic.sections.forEach((section, sectionIndex) => {
+                    const problemsHtml = section.problems.map((problem, problemIndex) => {
+                        const problemId = getProblemId(topicIndex, sectionIndex, problemIndex);
+                        const isCompleted = state.completed[problemId] || false;
+                        const noteText = state.notes[problemId] || '';
+                        const difficultyClass = getDifficultyClass(problem.difficulty);
+
+                        return `
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/50">
+                                <td class="p-4 text-center">
+                                    <input type="checkbox" data-id="${problemId}" class="h-5 w-5 rounded bg-gray-700 border-gray-600 text-indigo-500 focus:ring-indigo-500" ${isCompleted ? 'checked' : ''}>
+                                </td>
+                                <td class="p-4 font-medium text-gray-300">
+                                    <a href="${problem.link}" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-400 transition-colors">
+                                        ${problem.name}
+                                    </a>
+                                </td>
+                                <td class="p-4 text-gray-400">${problem.platform}</td>
+                                <td class="p-4">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full ${difficultyClass}">
+                                        ${problem.difficulty}
+                                    </span>
+                                </td>
+                                <td class="p-4">
+                                    <input type="text" data-id="${problemId}" value="${noteText}" placeholder="Add a note..." class="w-full bg-gray-800 border border-gray-700 rounded-md px-2 py-1 text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    const sectionHtml = `
+                        <details class="bg-gray-900 rounded-lg overflow-hidden shadow-lg" open>
+                            <summary class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-800/60">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-200">${section.name}</h3>
+                                    <p class="text-gray-400 text-sm mt-1">${section.description}</p>
+                                </div>
+                                <span class="text-gray-400 arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </summary>
+                            <div class="p-2 md:p-4 bg-gray-900">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full min-w-[600px] text-left">
+                                        <thead class="border-b border-gray-700 text-sm text-gray-400">
+                                            <tr>
+                                                <th class="p-4 w-16">Done</th>
+                                                <th class="p-4">Problem</th>
+                                                <th class="p-4">Platform</th>
+                                                <th class="p-4">Difficulty</th>
+                                                <th class="p-4">Notes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${problemsHtml}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </details>
+                    `;
+                    sectionsContainer.innerHTML += sectionHtml;
+                });
+                
+                partElement.innerHTML = summaryHtml;
+                partElement.appendChild(sectionsContainer);
+                topicsContainer.appendChild(partElement);
+            });
+        }
+
+        // --- Event Handling ---
+        topicsContainer.addEventListener('input', (e) => {
+            const target = e.target;
+            const problemId = target.dataset.id;
+            if (!problemId) return;
+
+            if (target.type === 'checkbox') {
+                state.completed[problemId] = target.checked;
+            } else if (target.type === 'text') {
+                state.notes[problemId] = target.value;
+            }
+            saveState();
+        });
+        
+        resetButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
+                localStorage.removeItem(STORAGE_KEY);
+                loadState();
+                renderContent();
+            }
+        });
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            renderContent();
+        });
+    </script>
+</body>
+</html>
+

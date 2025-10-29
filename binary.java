@@ -4,7 +4,8 @@ public class binary {
         int bitMask = 1 ;
         if ((num & bitMask) == 0) {
             System.out.println("even");
-        }else{
+        }else{ 
+
             System.out.println("odd");
         }
     }

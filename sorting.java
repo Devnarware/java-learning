@@ -1,19 +1,22 @@
 public class sorting {
     public static void bubbleSort(int arr[]) {
         for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = 0; j < arr.length - 1 - i; j++) {
+            int flag = 0 ;
+            for (int j = 0; j < arr.length - 1 - i; j++) {   
                 if (arr[j] > arr[j + 1]) {
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
-
+                    flag = 1 ;
                 }
+                
             }
+            if(flag == 0) break ;
         }
         int i = 0;
         while (i < arr.length) {
             System.out.print(arr[i] + ",");
-            i++;
+            i++;     
         }
     }
     public static void selectionSort(int arr[]) {
@@ -27,7 +30,6 @@ public class sorting {
             int temp = arr[smallest];
             arr[smallest] = arr[i];
             arr[i]=temp;
-            
 
             System.out.print(arr[i] + ",");
         }
@@ -76,7 +78,7 @@ public class sorting {
         }
     }
     public static void main(String args[]) {
-        int arr[] = { 1,2,4,2,3,5,2 }; // Unsorted array
-        selectionSort(arr); // Sorting & printing the array in one function
+        int arr[] = { 5,3,1,6,7,4,2 }; // Unsorted array
+        bubbleSort(arr); // Sorting & printing the array in one function
     }
 }

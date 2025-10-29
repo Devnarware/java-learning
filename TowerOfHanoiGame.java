@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class TowerOfHanoiGame {
-    static final int NUM_DISKS = 5
+    static final int NUM_DISKS = 3
     ;
     static Map<String, Stack<Integer>> pegs = new HashMap<>();
     static Scanner scanner = new Scanner(System.in);
@@ -21,7 +21,7 @@ public class TowerOfHanoiGame {
             drawTowers();
 
             if (pegs.get("C").size() == NUM_DISKS || pegs.get("B").size() == NUM_DISKS) {
-                System.out.println("🎉 Congratulations! You've solved the puzzle.");
+                System.out.println(" Congratulations! You've solved the puzzle.");
                 break;
             }
 
@@ -30,20 +30,20 @@ public class TowerOfHanoiGame {
             String to = scanner.next().toUpperCase();
 
             if (!pegs.containsKey(from) || !pegs.containsKey(to)) {
-                System.out.println("❌ Invalid peg. Use A, B, or C.");
+                System.out.println(" Invalid peg. Use A, B, or C.");
                 pause();
                 continue;
             }
 
             if (pegs.get(from).isEmpty()) {
-                System.out.println("❌ Cannot move from empty peg.");
+                System.out.println("Cannot move from empty peg.");
                 pause();
                 continue;
             }
 
             int disk = pegs.get(from).peek();
             if (!pegs.get(to).isEmpty() && pegs.get(to).peek() < disk) {
-                System.out.println("❌ Invalid move. Cannot place larger disk on smaller one.");
+                System.out.println("Invalid move. Cannot place larger disk on smaller one.");
                 pause();
                 continue;
             }
@@ -70,7 +70,7 @@ public class TowerOfHanoiGame {
         }
 
         System.out.println("-----------\t-----------\t-----------");
-        System.out.println("    A     \t    B     \t    C     ");
+        System.out.println("    A       \t    B     \t    C     ");
     }
 
     static void printDisk(int size) {
