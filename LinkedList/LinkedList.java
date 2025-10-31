@@ -1,5 +1,7 @@
 package LinkedList;
 
+import java.security.PublicKey;
+
 public class LinkedList {
 
     public static class Node{
@@ -167,5 +169,40 @@ public class LinkedList {
             head = temp ;
         }
         return prev ;
+
+
     }
+
+    //ZIG-ZAG LINKEDLIST
+    public static void zig_zag(Node head){
+
+        //BREAK FROM THE MIDDLE
+        Node slow = head ;
+        Node fast = head ;
+        while(fast != null && fast.next != null){
+            slow = slow.next ;
+            fast = fast.next.next ;
+        }
+        //REVERSE THE TIGHT PART
+        Node rightHead = reverse(slow) ;
+
+        //MERGE THE LINKEDLIST
+        merging_for_zig_zag( head ,  rightHead) ;
+
+
+    }
+
+    // MERGING THE LINKEDLIST
+    public  static void merging_for_zig_zag(Node head , Node rightHead){
+        Node temp = head ;
+        while(rightHead.next != null){
+            Node aTemp = temp.next ;
+            temp.next = rightHead ;
+            Node bTemp = rightHead.next ;
+            rightHead.next = aTemp ;
+            rightHead = bTemp ;
+            temp = aTemp ;
+        }
+    }
+
 }
