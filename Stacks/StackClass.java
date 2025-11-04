@@ -5,7 +5,7 @@ import java.util.ArrayList ;
 public class StackClass{
 
 
-    public static class Stack{
+
 
         static ArrayList<Integer> list = new ArrayList<>() ;
 
@@ -37,5 +37,39 @@ public class StackClass{
             }
             return list.getLast() ;
         }
-    }
+
+        //DISPLAY STACK
+        public static void display (){
+            if (isEmpty()){
+                System.out.println("Empty Stack");
+            }
+
+            while(!isEmpty()){
+                System.out.println(pop());
+            }
+        }
+
+        public static void pushAtBottom(/*StackClass.Stack s */int n){
+            if(isEmpty()){
+                push(n);
+                return ;
+            }
+
+            int top = pop() ;
+            pushAtBottom(n);
+            push(top) ;
+
+        }
+
+
+        public static void reverse(){
+            if(isEmpty()){
+                return ;
+            }
+            //SAVE THE LAST ELEMENT
+            int top = pop() ;
+            reverse();
+            pushAtBottom(top); ;
+        }
+
 }
