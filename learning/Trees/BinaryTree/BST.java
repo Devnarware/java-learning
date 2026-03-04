@@ -82,10 +82,10 @@ public class BST {
       }
   }
 
-  private void populateSorted(int[] arr){
+  public void populateSorted(int[] arr){
       populateSorted(arr, 0, arr.length);
   }
-  public void populateSorted(int[] arr, int si, int ei){
+  private void populateSorted(int[] arr, int si, int ei){
 
       if(si >= ei){
           return ;
