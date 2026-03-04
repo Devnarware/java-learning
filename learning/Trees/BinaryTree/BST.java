@@ -39,6 +39,17 @@ public class BST {
       return root == null;
   }
 
+  public boolean balanced(){
+       return balanced(root) ;
+  }
+
+  private boolean balanced(Node node){
+      if(node == null){
+          return true ;
+      }
+      return ( Math.abs(height(node.left) - height(node.right)) <= 1 ) && (balanced(node.left)) && balanced(node.right) ;
+    }
+
 
   public void insert(int val){
       root = insert(val , root) ;
@@ -59,5 +70,43 @@ public class BST {
 
       node.height = Math.max(height(node.left), height(node.right)) + 1 ;
       return node ;
+  }
+
+  public void populate(int[] arr){
+//      for (int i = 0; i < arr.length; i++) {
+//          this.insert(arr[i]);
+//      }
+
+      for(int i : arr){
+          this.insert(i);
+      }
+  }
+
+  private void populateSorted(int[] arr){
+      populateSorted(arr, 0, arr.length);
+  }
+  public void populateSorted(int[] arr, int si, int ei){
+
+      if(si >= ei){
+          return ;
+      }
+
+      int mid = si + (ei-si)/2 ;
+      this.insert(arr[mid]);
+      populateSorted(arr, si, mid);
+      populateSorted(arr, mid+1, ei);
+
+  }
+
+  public void display(){
+      display(root, "Root node is: ");
+  }
+  private void display(Node node, String details){
+      if(node == null){
+          return ;
+      }
+      System.out.println(details + node.data);
+      display(node.left, "Left node of " + node.data + " is: ");
+      display(node.right, "Right node of " + node.data + " is: ");
   }
 }

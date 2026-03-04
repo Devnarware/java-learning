@@ -1,9 +1,9 @@
-package Trees.BinaryTree;
+package BinaryTree;
 import java.util.Scanner ;
 
 public class BinaryTree {
 
-    private static class Node{
+    private class Node{
         int data ;
         Node left ;
         Node right ;
