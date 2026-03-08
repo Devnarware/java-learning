@@ -40,7 +40,7 @@ public class AVL {
     }
     private Node insert(int val, Node node){
         if(node == null){
-            node = new Node(val) ;
+            return new Node(val) ;
         }
 
         if(val > node.data){
@@ -66,7 +66,7 @@ public class AVL {
 
             // Left-Right case
             if(height(node.left.left) - height(node.left.right) < 0){
-                node.left = rotateLeft(node) ;
+                node.left = rotateLeft(node.left) ;
                 return rotateRight(node) ;
             }
         }
@@ -82,7 +82,7 @@ public class AVL {
 
             // Right-Left case
             if (height(node.right.left) - height(node.right.right) > 0){
-                node.right = rotateRight(node) ;
+                node.right = rotateRight(node.right) ;
                 return  rotateLeft(node) ;
             }
         }
