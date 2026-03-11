@@ -1,5 +1,7 @@
 package SegmentTree;
 
+import BinaryTree.BinaryTree;
+
 public class ST {
 
     private class Node{
@@ -23,7 +25,7 @@ public class ST {
     Node root ;
 
     public ST(int[] arr){
-        this.root = construct(arr, 0, arr.length) ;
+        this.root = construct(arr, 0, arr.length-1) ;
     }
 
     private Node construct(int[] arr, int start, int end) {
@@ -63,6 +65,39 @@ public class ST {
             return this.query(node.left, qsi, qei) + this.query(node.right, qsi, qei) ;
         }
 
+    }
+
+    public void update(int index, int val){
+        this.root.data = update(root, index, val);
+    }
+    private int update(Node node, int index, int val){
+
+        if(index >= node.startInterval && index <= node.endInterval){
+            if (index == node.startInterval && index == node.endInterval){
+                node.data = val ;
+                return node.data ;
+            }else{
+
+                int leftData = update(node.left, index, val) ;
+                int rightData = update(node.right, index, val) ;
+                node.data = leftData + rightData ;
+            }
+        }
+        return node.data ;
+
+    }
+
+    public void display(){
+        display(this.root, "") ;
+    }
+    private void display(Node node, String indent){
+        if (node == null){
+//            System.out.println("tree is empty");
+            return ;
+        }
+        System.out.print(indent + node.data);
+        display(node.left , " ") ;
+        display(node.right , " ") ;
     }
 
 }
