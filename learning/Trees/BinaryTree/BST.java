@@ -1,112 +1,149 @@
 package BinaryTree;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST {
 
-  public static class Node{
+    public static class Node {
 
 
-      private int data ;
-      private Node left ;
-      private Node right ;
-      private int height ;
+        private int data;
+        private Node left;
+        private Node right;
+        private int height;
 
 
-      public Node(int data){
-          this.data = data ;
-      }
+        public Node(int data) {
+            this.data = data;
+        }
 
-      public int getData() {
-          return this.data;
-      }
+        public int getData() {
+            return this.data;
+        }
 
-  }
+    }
 
-  private Node root ;
+    private Node root;
 
-  public BST(){
+    public BST() {
 
-  }
+    }
 
-  public int height(Node node){
-      if(node == null){
-          return -1 ;
-      }
+    public int height(Node node) {
+        if (node == null) {
+            return -1;
+        }
 
-      return node.height ;
-  }
+        return node.height;
+    }
 
-  public boolean isEmpty(){
-      return root == null;
-  }
+    public boolean isEmpty() {
+        return root == null;
+    }
 
-  public boolean balanced(){
-       return balanced(root) ;
-  }
+    public boolean balanced() {
+        return balanced(root);
+    }
 
-  private boolean balanced(Node node){
-      if(node == null){
-          return true ;
-      }
-      return ( Math.abs(height(node.left) - height(node.right)) <= 1 ) && (balanced(node.left)) && balanced(node.right) ;
+    private boolean balanced(Node node) {
+        if (node == null) {
+            return true;
+        }
+        return (Math.abs(height(node.left) - height(node.right)) <= 1) && (balanced(node.left)) && balanced(node.right);
     }
 
 
-  public void insert(int val){
-      root = insert(val , root) ;
-  }
+    public void insert(int val) {
+        root = insert(val, root);
+    }
 
-  private Node insert(int val, Node node){
-      if(node == null){
-          node = new Node(val) ;
-          return node ;
-      }
+    private Node insert(int val, Node node) {
+        if (node == null) {
+            node = new Node(val);
+            return node;
+        }
 
-      if(node.data > val){
-          node.left = insert(val, node.left);
-      }
-      if(node.data < val){
-          node.right = insert(val, node.right);
-      }
+        if (node.data > val) {
+            node.left = insert(val, node.left);
+        }
+        if (node.data < val) {
+            node.right = insert(val, node.right);
+        }
 
-      node.height = Math.max(height(node.left), height(node.right)) + 1 ;
-      return node ;
-  }
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        return node;
+    }
 
-  public void populate(int[] arr){
+    public void populate(int[] arr) {
 //      for (int i = 0; i < arr.length; i++) {
 //          this.insert(arr[i]);
 //      }
 
-      for(int i : arr){
-          this.insert(i);
-      }
-  }
+        for (int i : arr) {
+            this.insert(i);
+        }
+    }
 
-  public void populateSorted(int[] arr){
-      populateSorted(arr, 0, arr.length);
-  }
-  private void populateSorted(int[] arr, int si, int ei){
+    public void populateSorted(int[] arr) {
+        populateSorted(arr, 0, arr.length);
+    }
 
-      if(si >= ei){
-          return ;
-      }
+    private void populateSorted(int[] arr, int si, int ei) {
 
-      int mid = si + (ei-si)/2 ;
-      this.insert(arr[mid]);
-      populateSorted(arr, si, mid);
-      populateSorted(arr, mid+1, ei);
+        if (si >= ei) {
+            return;
+        }
 
-  }
+        int mid = si + (ei - si) / 2;
+        this.insert(arr[mid]);
+        populateSorted(arr, si, mid);
+        populateSorted(arr, mid + 1, ei);
 
-  public void display(){
-      display(root, "Root node is: ");
-  }
-  private void display(Node node, String details){
-      if(node == null){
-          return ;
-      }
-      System.out.println(details + node.data);
-      display(node.left, "Left node of " + node.data + " is: ");
-      display(node.right, "Right node of " + node.data + " is: ");
-  }
+    }
+
+    public void display() {
+        display(root, "Root node is: ");
+    }
+
+    private void display(Node node, String details) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(details + node.data);
+        display(node.left, "Left node of " + node.data + " is: ");
+        display(node.right, "Right node of " + node.data + " is: ");
+    }
+
+
+
+
+        private Queue<Node> q = new LinkedList<>() ;
+
+        public void printBFS(){
+            printBFS(this.root) ;
+        }
+        private void printBFS(Node node) {
+
+
+            q.add(node) ;
+            if (node.left != null){
+                q.add(node.left) ;
+            }
+            if (node.right != null){
+                q.add(node.right) ;
+            }
+            int ans = node.data ;
+            System.out.println(ans);
+            q.remove() ;
+            printBFS(q.peek());
+
+
+
+        }
+
+
+
+
 }
