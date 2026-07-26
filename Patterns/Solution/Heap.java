@@ -97,9 +97,7 @@ class Heap {
         heap.insert(1);
         heap.insert(2);
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println(heap.remove());
-        }
+        heap.heapsort();
     }
 }
 
@@ -152,7 +150,7 @@ class HeapSort {
         }
 
         int temp = list.getFirst() ;
-        int last = list.remove(list.size() - 1) ;
+        int last = list.removeLast() ;
 
         if(!list.isEmpty()){
             list.set(0, last) ;
@@ -176,6 +174,12 @@ class HeapSort {
         if(min != idx){
             swap(min, idx) ;
             downheap(min);
+        }
+    }
+
+    public void heapsort(){
+        for (int i = 0; i < 5; i++) {
+            System.out.print(list.removeFirst() + " ");
         }
     }
 }
