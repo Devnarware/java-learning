@@ -115,6 +115,14 @@ class HeapSort {
         return (idx - 1) / 2;
     }
 
+    private int left(int idx){
+        return (idx * 2) + 1 ;
+    }
+
+    private int right(int idx){
+        return (idx * 2) + 2 ;
+    }
+
     public void insert(int val) {
         list.add(val);
         upheap(list.size() - 1);
@@ -129,6 +137,39 @@ class HeapSort {
         if (list.get(p) > list.getLast()) {
             swap(p, idx);
             upheap(p);
+        }
+    }
+
+    public int remove() throws Exception{
+        if(list.isEmpty()){
+            throw new Exception("Removing from Empty list....!!") ;
+        }
+
+        int temp = list.getFirst() ;
+        int last = list.remove(list.size() - 1) ;
+
+        if(!list.isEmpty()){
+            list.set(0, last) ;
+            downheap(0) ;
+        }
+        return temp ;
+    }
+
+    private void downheap(int idx){
+        int min = idx ;
+        int left = left(idx) ;
+        int right = right(idx) ;
+
+        if(left < list.size() && list.get(min) > list.get(left)){
+            min = left ;
+        }
+        if (right < list.size() && list.get(min) > list.get(right)){
+            min = right ;
+        }
+
+        if(min != idx){
+            swap(min, idx) ;
+            downheap(min);
         }
     }
 }
