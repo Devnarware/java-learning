@@ -5,8 +5,11 @@ import java.util.Arrays;
 
 public class Solutions {
     public static void main(String[] args) {
+
+//        Heap sort = new Heap() ;
+
         int[] arr = {5,4,3,6,8,2};
-        mergeSort(arr, 0, arr.length - 1);
+        sort(arr, 0, arr.length -1);
         System.out.println(Arrays.toString(arr));
 //        Arrays.sort(arr);
     }

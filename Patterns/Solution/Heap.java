@@ -1,13 +1,14 @@
 package Solution;
 import java.util.ArrayList ;
+import java.util.Arrays;
 
 class Heap {
-    public void mergeSort(int[] arr, int s, int e){
+    public static void mergeSort(int[] arr, int s, int e){
         if(s >= e){
             return ;
         }
 
-        int mid = s + (e + s) / 2 ;
+        int mid = s + (e - s) / 2 ;
 
         mergeSort(arr, s, mid);
         mergeSort(arr, mid+1, e);
@@ -17,7 +18,7 @@ class Heap {
 
     private static void merge(int[] arr, int s, int e, int mid){
         int i = s ;
-        int j = mid ;
+        int j = mid + 1 ;
         int k = 0 ;
         int[] temp = new int[e - s + 1] ;
 
@@ -49,4 +50,11 @@ class Heap {
         }
     }
 
+    public static void main(String[] args) {
+
+        int[] arr = {5,4,3,6,8,2};
+        mergeSort(arr, 0, arr.length - 1);
+
+        System.out.println(Arrays.toString(arr));
+    }
 }
