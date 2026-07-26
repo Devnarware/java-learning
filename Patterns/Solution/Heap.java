@@ -97,14 +97,38 @@ class Heap {
     }
 }
 
-class HeapSort{
-    ArrayList<Integer> list ;
+class HeapSort {
+    ArrayList<Integer> list;
 
-    public HeapSort(){
-        list = new ArrayList<>() ;
+    public HeapSort() {
+        list = new ArrayList<>();
     }
 
-    public void insert(int val){
-        
+    private void swap(int i, int j) {
+        int temp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, temp);
+    }
+
+
+    private int parent(int idx) {
+        return (idx - 1) / 2;
+    }
+
+    public void insert(int val) {
+        list.add(val);
+        upheap(list.size() - 1);
+    }
+
+    private void upheap(int idx) {
+        if (idx == 0) {
+            return;
+        }
+
+        int p = parent(list.size() - 1);
+        if (list.get(p) > list.getLast()) {
+            swap(p, idx);
+            upheap(p);
+        }
     }
 }
