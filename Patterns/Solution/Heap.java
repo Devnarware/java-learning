@@ -88,12 +88,18 @@ class Heap {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
-        int[] arr = {5,4,3,6,8,2};
-        quicksort(arr, 0, arr.length - 1);
+        HeapSort heap = new HeapSort() ;
+        heap.insert(5);
+        heap.insert(3);
+        heap.insert(6);
+        heap.insert(1);
+        heap.insert(2);
 
-        System.out.println(Arrays.toString(arr));
+        for (int i = 0; i < 5; i++) {
+            System.out.println(heap.remove());
+        }
     }
 }
 
@@ -133,8 +139,8 @@ class HeapSort {
             return;
         }
 
-        int p = parent(list.size() - 1);
-        if (list.get(p) > list.getLast()) {
+        int p = parent(idx);
+        if (list.get(p) > list.get(idx)) {
             swap(p, idx);
             upheap(p);
         }
